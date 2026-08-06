@@ -1,0 +1,206 @@
+/**
+ * Design tokens for the GTTC Indigenous Smart Security Central Control Platform.
+ * Dark theme is the primary/default theme (SOC-style enterprise software).
+ * A light theme is provided for completeness but dark is the design intent.
+ */
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-bg-canvas: #0a0d13;
+  --color-bg-surface: #10141c;
+  --color-bg-surface-raised: #151a24;
+  --color-bg-surface-hover: #1a2029;
+  --color-bg-overlay: #0a0d13e6;
+  --color-border: #232a37;
+  --color-border-strong: #2f3949;
+  --color-border-focus: #2f7de1;
+
+  /* Text */
+  --color-text-primary: #e6e9ee;
+  --color-text-secondary: #9aa5b5;
+  --color-text-tertiary: #62697a;
+  --color-text-inverse: #0a0d13;
+
+  /* Brand - Primary (Blue) */
+  --color-primary-50: #eaf2fd;
+  --color-primary-100: #cfe2fa;
+  --color-primary-300: #7bb0ef;
+  --color-primary-400: #4a92e7;
+  --color-primary-500: #2f7de1;
+  --color-primary-600: #2565bd;
+  --color-primary-700: #1c4f97;
+  --color-primary-900: #12305e;
+
+  /* Secondary (Slate) */
+  --color-secondary-100: #cbd3e0;
+  --color-secondary-300: #8894a8;
+  --color-secondary-500: #5b6478;
+  --color-secondary-700: #3a4152;
+  --color-secondary-900: #1c212c;
+
+  /* Accent / Info (Cyan) */
+  --color-accent-300: #7fe3ee;
+  --color-accent-400: #3fd0e0;
+  --color-accent-500: #17b8cb;
+  --color-accent-600: #1194a3;
+
+  /* Status */
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-bg: #14301f;
+
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-bg: #3a1618;
+
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-bg: #362507;
+
+  --color-info-400: #3fd0e0;
+  --color-info-500: #17b8cb;
+  --color-info-bg: #0d2f36;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.35);
+  --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 12px 24px -6px rgb(0 0 0 / 0.5), 0 4px 8px -4px rgb(0 0 0 / 0.4);
+
+  /* Layout */
+  --header-height: 56px;
+  --sidebar-width: 260px;
+  --sidebar-width-collapsed: 72px;
+  --footer-height: 36px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg-canvas: #f4f6f9;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-raised: #ffffff;
+  --color-bg-surface-hover: #eef1f6;
+  --color-bg-overlay: #0a0d13cc;
+  --color-border: #dde2ea;
+  --color-border-strong: #c4cbd6;
+  --color-border-focus: #2f7de1;
+
+  --color-text-primary: #10141c;
+  --color-text-secondary: #4b5566;
+  --color-text-tertiary: #7c8698;
+  --color-text-inverse: #ffffff;
+
+  --color-primary-50: #eaf2fd;
+  --color-primary-100: #cfe2fa;
+  --color-primary-300: #7bb0ef;
+  --color-primary-400: #4a92e7;
+  --color-primary-500: #2166c4;
+  --color-primary-600: #1c548f;
+  --color-primary-700: #1c4f97;
+  --color-primary-900: #12305e;
+
+  --color-secondary-100: #eef1f6;
+  --color-secondary-300: #c4cbd6;
+  --color-secondary-500: #5b6478;
+  --color-secondary-700: #3a4152;
+  --color-secondary-900: #1c212c;
+
+  --color-accent-300: #7fe3ee;
+  --color-accent-400: #17b8cb;
+  --color-accent-500: #128b98;
+  --color-accent-600: #0e6d78;
+
+  --color-success-400: #22c55e;
+  --color-success-500: #16a34a;
+  --color-success-600: #15803d;
+  --color-success-bg: #e7f8ee;
+
+  --color-danger-400: #ef4444;
+  --color-danger-500: #dc2626;
+  --color-danger-600: #b91c1c;
+  --color-danger-bg: #fceaea;
+
+  --color-warning-400: #f59e0b;
+  --color-warning-500: #d97706;
+  --color-warning-600: #b45309;
+  --color-warning-bg: #fdf3e0;
+
+  --color-info-400: #17b8cb;
+  --color-info-500: #128b98;
+  --color-info-bg: #e5f7f9;
+
+  --shadow-sm: 0 1px 2px 0 rgb(16 20 28 / 0.06);
+  --shadow-md: 0 4px 10px -2px rgb(16 20 28 / 0.08), 0 2px 4px -2px rgb(16 20 28 / 0.06);
+  --shadow-lg: 0 12px 24px -6px rgb(16 20 28 / 0.12), 0 4px 8px -4px rgb(16 20 28 / 0.08);
+}
+
+@theme inline {
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  --color-canvas: var(--color-bg-canvas);
+  --color-surface: var(--color-bg-surface);
+  --color-surface-raised: var(--color-bg-surface-raised);
+  --color-surface-hover: var(--color-bg-surface-hover);
+  --color-overlay: var(--color-bg-overlay);
+  --color-border-default: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-border-focus: var(--color-border-focus);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+  --color-text-inverse: var(--color-text-inverse);
+
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-900: var(--color-primary-900);
+
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-900: var(--color-secondary-900);
+
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-600: var(--color-accent-600);
+
+  --color-success-400: var(--color-success-400);
+  --color-success-500: var(--color-success-500);
+  --color-success-600: var(--color-success-600);
+  --color-success-bg: var(--color-success-bg);
+
+  --color-danger-400: var(--color-danger-400);
+  --color-danger-500: var(--color-danger-500);
+  --color-danger-600: var(--color-danger-600);
+  --color-danger-bg: var(--color-danger-bg);
+
+  --color-warning-400: var(--color-warning-400);
+  --color-warning-500: var(--color-warning-500);
+  --color-warning-600: var(--color-warning-600);
+  --color-warning-bg: var(--color-warning-bg);
+
+  --color-info-400: var(--color-info-400);
+  --color-info-500: var(--color-info-500);
+  --color-info-bg: var(--color-info-bg);
+
+  --shadow-token-sm: var(--shadow-sm);
+  --shadow-token-md: var(--shadow-md);
+  --shadow-token-lg: var(--shadow-lg);
+}
