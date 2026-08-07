@@ -9,7 +9,6 @@ import { PlaceholderPage } from '@/pages/placeholder/PlaceholderPage';
 import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { ROUTES } from '@/constants/routes';
 import { accessControlRoutes } from '@/modules/access-control/routes';
-import { liveMonitoringRoutes } from '@/modules/live-monitoring/routes';
 
 const MODULE_ROUTES: { path: string; title: string }[] = [
   { path: ROUTES.dashboard, title: 'Dashboard' },
@@ -43,13 +42,10 @@ export function AppRoutes() {
       >
         <Route path="/" element={<Navigate to={ROUTES.dashboard} replace />} />
         <Route path={ROUTES.dashboard} element={<DashboardPage />} />
-        {MODULE_ROUTES.filter(
-          (route) => route.path !== ROUTES.dashboard && route.path !== ROUTES.accessControl && route.path !== ROUTES.liveMonitoring,
-        ).map((route) => (
+        {MODULE_ROUTES.filter((route) => route.path !== ROUTES.dashboard && route.path !== ROUTES.accessControl).map((route) => (
           <Route key={route.path} path={route.path} element={<PlaceholderPage title={route.title} />} />
         ))}
         {accessControlRoutes}
-        {liveMonitoringRoutes}
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
