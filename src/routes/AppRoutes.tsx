@@ -6,7 +6,9 @@ import { LoginPage } from '@/pages/auth/LoginPage';
 import { NotFoundPage } from '@/pages/errors/NotFoundPage';
 import { AccessDeniedPage } from '@/pages/errors/AccessDeniedPage';
 import { PlaceholderPage } from '@/pages/placeholder/PlaceholderPage';
+import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { ROUTES } from '@/constants/routes';
+import { accessControlRoutes } from '@/modules/access-control/routes';
 
 const MODULE_ROUTES: { path: string; title: string }[] = [
   { path: ROUTES.dashboard, title: 'Dashboard' },
@@ -39,9 +41,11 @@ export function AppRoutes() {
         }
       >
         <Route path="/" element={<Navigate to={ROUTES.dashboard} replace />} />
-        {MODULE_ROUTES.map((route) => (
+        <Route path={ROUTES.dashboard} element={<DashboardPage />} />
+        {MODULE_ROUTES.filter((route) => route.path !== ROUTES.dashboard && route.path !== ROUTES.accessControl).map((route) => (
           <Route key={route.path} path={route.path} element={<PlaceholderPage title={route.title} />} />
         ))}
+        {accessControlRoutes}
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
