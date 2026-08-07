@@ -5,6 +5,7 @@ import { NAVIGATION_CONFIG } from '@/config/navigation.config';
 import { ROUTES } from '@/constants/routes';
 
 const QUICK_ACTION_IDS = [
+  'live-monitoring',
   'video-surveillance',
   'access-control',
   'fire-emergency',

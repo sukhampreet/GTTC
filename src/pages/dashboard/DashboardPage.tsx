@@ -14,6 +14,7 @@ import { RecentActivityTable } from './components/RecentActivityTable';
 import { QuickActions } from './components/QuickActions';
 import { CampusMap } from './components/CampusMap';
 import { AccessControlLiveWidget } from '@/modules/access-control/components/dashboard/AccessControlLiveWidget';
+import { LiveMonitoringWidget } from '@/modules/live-monitoring/components/dashboard/LiveMonitoringWidget';
 
 export function DashboardPage() {
   const now = useNow(1000);
@@ -45,7 +46,10 @@ export function DashboardPage() {
 
       <DeviceStatusGrid />
 
-      <AccessControlLiveWidget />
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
+        <LiveMonitoringWidget />
+        <AccessControlLiveWidget />
+      </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <StorageWidget />
