@@ -6,6 +6,8 @@ import { cn } from '@/utils/cn';
 import { ROUTES } from '@/constants/routes';
 import { ACCESS_CONTROL_PATHS } from '@/modules/access-control/constants/paths';
 import { VIDEO_SURVEILLANCE_PATHS } from '@/modules/video-surveillance/constants/paths';
+import { SMART_PARKING_PATHS } from '@/modules/smart-parking/constants/paths';
+import { ENVIRONMENT_MONITORING_PATHS } from '@/modules/environment-monitoring/constants/paths';
 import { deviceStatusSummaries } from '@/mock/dashboard';
 
 /** Device summary ids that link into the Access Control module when clicked. */
@@ -13,6 +15,12 @@ const ACCESS_CONTROL_DEVICE_IDS = new Set(['access-controllers']);
 
 /** Device summary ids that link into the Video Surveillance module when clicked. */
 const VIDEO_SURVEILLANCE_DEVICE_IDS = new Set(['cameras']);
+
+/** Device summary ids that link into the Smart Parking module when clicked. */
+const SMART_PARKING_DEVICE_IDS = new Set(['parking-devices']);
+
+/** Device summary ids that link into the Environment Monitoring module when clicked. */
+const ENVIRONMENT_MONITORING_DEVICE_IDS = new Set(['environment-sensors']);
 
 export function DeviceStatusGrid() {
   const navigate = useNavigate();
@@ -26,11 +34,15 @@ export function DeviceStatusGrid() {
           const total = device.online + device.offline + device.maintenance;
           const isAccessControlLinked = ACCESS_CONTROL_DEVICE_IDS.has(device.id);
           const isVideoSurveillanceLinked = VIDEO_SURVEILLANCE_DEVICE_IDS.has(device.id);
-          const isLinked = isAccessControlLinked || isVideoSurveillanceLinked;
+          const isSmartParkingLinked = SMART_PARKING_DEVICE_IDS.has(device.id);
+          const isEnvironmentMonitoringLinked = ENVIRONMENT_MONITORING_DEVICE_IDS.has(device.id);
+          const isLinked = isAccessControlLinked || isVideoSurveillanceLinked || isSmartParkingLinked || isEnvironmentMonitoringLinked;
 
           const handleNavigate = () => {
             if (isAccessControlLinked) navigate(`${ROUTES.accessControl}/${ACCESS_CONTROL_PATHS.doorStatus}`);
             if (isVideoSurveillanceLinked) navigate(`${ROUTES.videoSurveillance}/${VIDEO_SURVEILLANCE_PATHS.liveView}`);
+            if (isSmartParkingLinked) navigate(`${ROUTES.smartParking}/${SMART_PARKING_PATHS.liveParking}`);
+            if (isEnvironmentMonitoringLinked) navigate(`${ROUTES.environmentMonitoring}/${ENVIRONMENT_MONITORING_PATHS.deviceStatus}`);
           };
 
           return (

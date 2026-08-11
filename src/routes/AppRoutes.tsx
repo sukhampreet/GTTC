@@ -15,6 +15,8 @@ import { settingsRoutes } from '@/modules/settings/routes';
 import { buildingIntercomRoutes } from '@/modules/building-intercom/routes';
 import { fireEmergencyRoutes } from '@/modules/fire-emergency/routes';
 import { liveMonitoringRoutes } from '@/modules/live-monitoring/routes';
+import { smartParkingRoutes } from '@/modules/smart-parking/routes';
+import { environmentMonitoringRoutes } from '@/modules/environment-monitoring/routes';
 
 const MODULE_ROUTES: { path: string; title: string }[] = [
   { path: ROUTES.dashboard, title: 'Dashboard' },
@@ -56,6 +58,8 @@ export function AppRoutes() {
             route.path !== ROUTES.videoSurveillance &&
             route.path !== ROUTES.buildingIntercom &&
             route.path !== ROUTES.fireEmergency &&
+            route.path !== ROUTES.smartParking &&
+            route.path !== ROUTES.environmentMonitoring &&
             route.path !== ROUTES.users &&
             route.path !== ROUTES.settings,
         ).map((route) => (
@@ -66,6 +70,8 @@ export function AppRoutes() {
         {videoSurveillanceRoutes}
         {buildingIntercomRoutes}
         {fireEmergencyRoutes}
+        {smartParkingRoutes}
+        {environmentMonitoringRoutes}
         {userManagementRoutes}
         {settingsRoutes}
       </Route>
