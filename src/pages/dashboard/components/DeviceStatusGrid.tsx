@@ -5,10 +5,14 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { cn } from '@/utils/cn';
 import { ROUTES } from '@/constants/routes';
 import { ACCESS_CONTROL_PATHS } from '@/modules/access-control/constants/paths';
+import { VIDEO_SURVEILLANCE_PATHS } from '@/modules/video-surveillance/constants/paths';
 import { deviceStatusSummaries } from '@/mock/dashboard';
 
 /** Device summary ids that link into the Access Control module when clicked. */
 const ACCESS_CONTROL_DEVICE_IDS = new Set(['access-controllers']);
+
+/** Device summary ids that link into the Video Surveillance module when clicked. */
+const VIDEO_SURVEILLANCE_DEVICE_IDS = new Set(['cameras']);
 
 export function DeviceStatusGrid() {
   const navigate = useNavigate();
@@ -21,27 +25,30 @@ export function DeviceStatusGrid() {
           const Icon = device.icon;
           const total = device.online + device.offline + device.maintenance;
           const isAccessControlLinked = ACCESS_CONTROL_DEVICE_IDS.has(device.id);
+          const isVideoSurveillanceLinked = VIDEO_SURVEILLANCE_DEVICE_IDS.has(device.id);
+          const isLinked = isAccessControlLinked || isVideoSurveillanceLinked;
+
+          const handleNavigate = () => {
+            if (isAccessControlLinked) navigate(`${ROUTES.accessControl}/${ACCESS_CONTROL_PATHS.doorStatus}`);
+            if (isVideoSurveillanceLinked) navigate(`${ROUTES.videoSurveillance}/${VIDEO_SURVEILLANCE_PATHS.liveView}`);
+          };
 
           return (
             <AppCard
               key={device.id}
-              role={isAccessControlLinked ? 'button' : undefined}
-              tabIndex={isAccessControlLinked ? 0 : undefined}
-              onClick={
-                isAccessControlLinked
-                  ? () => navigate(`${ROUTES.accessControl}/${ACCESS_CONTROL_PATHS.doorStatus}`)
-                  : undefined
-              }
+              role={isLinked ? 'button' : undefined}
+              tabIndex={isLinked ? 0 : undefined}
+              onClick={isLinked ? handleNavigate : undefined}
               onKeyDown={
-                isAccessControlLinked
+                isLinked
                   ? (e) => {
-                      if (e.key === 'Enter' || e.key === ' ') navigate(`${ROUTES.accessControl}/${ACCESS_CONTROL_PATHS.doorStatus}`);
+                      if (e.key === 'Enter' || e.key === ' ') handleNavigate();
                     }
                   : undefined
               }
               className={cn(
                 'p-4',
-                isAccessControlLinked && 'cursor-pointer transition-colors hover:border-primary-500/60 hover:bg-surface-hover',
+                isLinked && 'cursor-pointer transition-colors hover:border-primary-500/60 hover:bg-surface-hover',
               )}
             >
               <div className="flex items-center gap-2.5">

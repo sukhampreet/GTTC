@@ -9,7 +9,12 @@ import { PlaceholderPage } from '@/pages/placeholder/PlaceholderPage';
 import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { ROUTES } from '@/constants/routes';
 import { accessControlRoutes } from '@/modules/access-control/routes';
+import { videoSurveillanceRoutes } from '@/modules/video-surveillance/routes';
+import { userManagementRoutes } from '@/modules/user-management/routes';
+import { settingsRoutes } from '@/modules/settings/routes';
 import { buildingIntercomRoutes } from '@/modules/building-intercom/routes';
+import { fireEmergencyRoutes } from '@/modules/fire-emergency/routes';
+import { liveMonitoringRoutes } from '@/modules/live-monitoring/routes';
 
 const MODULE_ROUTES: { path: string; title: string }[] = [
   { path: ROUTES.dashboard, title: 'Dashboard' },
@@ -44,12 +49,25 @@ export function AppRoutes() {
         <Route path="/" element={<Navigate to={ROUTES.dashboard} replace />} />
         <Route path={ROUTES.dashboard} element={<DashboardPage />} />
         {MODULE_ROUTES.filter(
-          (route) => route.path !== ROUTES.dashboard && route.path !== ROUTES.accessControl && route.path !== ROUTES.buildingIntercom,
+          (route) =>
+            route.path !== ROUTES.dashboard &&
+            route.path !== ROUTES.liveMonitoring &&
+            route.path !== ROUTES.accessControl &&
+            route.path !== ROUTES.videoSurveillance &&
+            route.path !== ROUTES.buildingIntercom &&
+            route.path !== ROUTES.fireEmergency &&
+            route.path !== ROUTES.users &&
+            route.path !== ROUTES.settings,
         ).map((route) => (
           <Route key={route.path} path={route.path} element={<PlaceholderPage title={route.title} />} />
         ))}
+        {liveMonitoringRoutes}
         {accessControlRoutes}
+        {videoSurveillanceRoutes}
         {buildingIntercomRoutes}
+        {fireEmergencyRoutes}
+        {userManagementRoutes}
+        {settingsRoutes}
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

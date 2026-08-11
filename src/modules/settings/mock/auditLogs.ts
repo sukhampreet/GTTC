@@ -1,0 +1,14 @@
+import type { AuditLogRecord } from '@/modules/settings/types';
+
+export const auditLogRecords: AuditLogRecord[] = [
+  { id: 'AUD-001', timestamp: '2026-08-08 09:41:02', user: 'admin', role: 'Administrator', action: 'User Created', module: 'User Management', target: 'meera.k', ipAddress: '10.10.1.14', result: 'success', description: 'Created new user account "Meera Krishnan" with Operator role.' },
+  { id: 'AUD-002', timestamp: '2026-08-08 09:20:11', user: 'admin', role: 'Administrator', action: 'Role Updated', module: 'User Management', target: 'Supervisor', ipAddress: '10.10.1.14', result: 'success', description: 'Updated permission set for role "Supervisor".' },
+  { id: 'AUD-003', timestamp: '2026-08-08 08:58:03', user: 'rahul.n', role: 'Security Officer', action: 'Login', module: 'Authentication', target: 'Session', ipAddress: '10.10.3.19', result: 'failed', description: 'Failed login attempt — incorrect password.' },
+  { id: 'AUD-004', timestamp: '2026-08-08 08:31:44', user: 'admin', role: 'Administrator', action: 'Settings Modified', module: 'Settings', target: 'Notification Preferences', ipAddress: '10.10.1.14', result: 'success', description: 'Enabled SMS delivery for Critical Alerts category.' },
+  { id: 'AUD-005', timestamp: '2026-08-08 07:49:12', user: 'admin', role: 'Administrator', action: 'Backup Created', module: 'Settings', target: 'BKP-01', ipAddress: '10.10.1.14', result: 'success', description: 'Manually triggered full system backup.' },
+  { id: 'AUD-006', timestamp: '2026-08-08 07:22:38', user: 'divya.p', role: 'Supervisor', action: 'Permission Changed', module: 'User Management', target: 'karthik.m', ipAddress: '10.10.1.41', result: 'success', description: 'Granted Door Control permission on Access Control module.' },
+  { id: 'AUD-007', timestamp: 'Yesterday 23:41', user: 'arjun.k', role: 'Security Officer', action: 'Login', module: 'Authentication', target: 'Session', ipAddress: '10.10.3.44', result: 'failed', description: 'Account locked after 5 consecutive failed login attempts.' },
+  { id: 'AUD-008', timestamp: 'Yesterday 21:05', user: 'admin', role: 'Administrator', action: 'Configuration Updated', module: 'Settings', target: 'Network Settings', ipAddress: '10.10.1.14', result: 'success', description: 'Updated DNS configuration reference.' },
+  { id: 'AUD-009', timestamp: 'Yesterday 18:12', user: 'sneha.i', role: 'Supervisor', action: 'Session Terminated', module: 'User Management', target: 'SES-05', ipAddress: '10.10.1.52', result: 'success', description: 'Manually terminated idle session for "vikram.s".' },
+  { id: 'AUD-010', timestamp: '2 days ago', user: 'admin', role: 'Administrator', action: 'Logout', module: 'Authentication', target: 'Session', ipAddress: '10.10.1.14', result: 'success', description: 'User logged out.' },
+];

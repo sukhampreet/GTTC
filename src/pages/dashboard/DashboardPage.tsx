@@ -14,6 +14,7 @@ import { RecentActivityTable } from './components/RecentActivityTable';
 import { QuickActions } from './components/QuickActions';
 import { CampusMap } from './components/CampusMap';
 import { AccessControlLiveWidget } from '@/modules/access-control/components/dashboard/AccessControlLiveWidget';
+import { VideoSurveillanceLiveWidget } from '@/modules/video-surveillance/components/dashboard/VideoSurveillanceLiveWidget';
 import { LiveMonitoringWidget } from '@/modules/live-monitoring/components/dashboard/LiveMonitoringWidget';
 
 export function DashboardPage() {
@@ -46,8 +47,9 @@ export function DashboardPage() {
 
       <DeviceStatusGrid />
 
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-3">
         <LiveMonitoringWidget />
+        <VideoSurveillanceLiveWidget />
         <AccessControlLiveWidget />
       </div>
 
