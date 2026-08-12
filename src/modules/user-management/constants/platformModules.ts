@@ -91,7 +91,7 @@ export const PLATFORM_MODULES: PlatformModuleDefinition[] = [
     id: 'smart-parking',
     label: 'Smart Parking',
     routePath: '/smart-parking',
-    implemented: false,
+    implemented: true,
     permissions: [
       { key: 'view-parking', label: 'View Parking' },
       { key: 'barrier-control', label: 'Barrier Control' },
@@ -103,7 +103,7 @@ export const PLATFORM_MODULES: PlatformModuleDefinition[] = [
     id: 'environment-monitoring',
     label: 'Environment Monitoring',
     routePath: '/environment-monitoring',
-    implemented: false,
+    implemented: true,
     permissions: [
       { key: 'view-sensors', label: 'View Sensors' },
       { key: 'alerts', label: 'Alerts' },
