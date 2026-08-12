@@ -11,7 +11,9 @@ const QUICK_ACTION_IDS = [
   'fire-emergency',
   'smart-parking',
   'environment-monitoring',
+  'ai-analytics',
   'reports',
+  'event-center',
   'device-management',
   'settings',
 ] as const;

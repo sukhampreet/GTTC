@@ -5,6 +5,7 @@ import { ChevronDown, LogOut, Settings, UserCircle } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/constants/routes';
+import { USER_MANAGEMENT_PATHS } from '@/modules/user-management/constants/paths';
 
 export function ProfileDropdown() {
   const [open, setOpen] = useState(false);
@@ -23,8 +24,14 @@ export function ProfileDropdown() {
   }, []);
 
   function handleLogout() {
+    setOpen(false);
     logout();
     navigate(ROUTES.login, { replace: true });
+  }
+
+  function handleViewProfile() {
+    setOpen(false);
+    navigate(`${ROUTES.users}/${USER_MANAGEMENT_PATHS.profile}?user=${currentUser?.id ?? ''}`);
   }
 
   if (!currentUser) return null;
@@ -50,12 +57,18 @@ export function ProfileDropdown() {
             <p className="truncate text-[11px] text-text-tertiary">{currentUser.email}</p>
           </div>
           <div className="p-1">
-            <button className="flex w-full items-center gap-2 rounded-(--radius-sm) px-2.5 py-2 text-left text-xs text-text-secondary hover:bg-surface-hover hover:text-text-primary">
+            <button
+              onClick={handleViewProfile}
+              className="flex w-full items-center gap-2 rounded-(--radius-sm) px-2.5 py-2 text-left text-xs text-text-secondary hover:bg-surface-hover hover:text-text-primary"
+            >
               <UserCircle className="size-4" />
               My Profile
             </button>
             <button
-              onClick={() => navigate(ROUTES.settings)}
+              onClick={() => {
+                setOpen(false);
+                navigate(ROUTES.settings);
+              }}
               className="flex w-full items-center gap-2 rounded-(--radius-sm) px-2.5 py-2 text-left text-xs text-text-secondary hover:bg-surface-hover hover:text-text-primary"
             >
               <Settings className="size-4" />

@@ -16,6 +16,7 @@ import { CampusMap } from './components/CampusMap';
 import { AccessControlLiveWidget } from '@/modules/access-control/components/dashboard/AccessControlLiveWidget';
 import { VideoSurveillanceLiveWidget } from '@/modules/video-surveillance/components/dashboard/VideoSurveillanceLiveWidget';
 import { LiveMonitoringWidget } from '@/modules/live-monitoring/components/dashboard/LiveMonitoringWidget';
+import { AIAnalyticsLiveWidget } from '@/modules/ai-analytics/components/dashboard/AIAnalyticsLiveWidget';
 
 export function DashboardPage() {
   const now = useNow(1000);
@@ -51,6 +52,10 @@ export function DashboardPage() {
         <LiveMonitoringWidget />
         <VideoSurveillanceLiveWidget />
         <AccessControlLiveWidget />
+      </div>
+
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-3">
+        <AIAnalyticsLiveWidget />
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">

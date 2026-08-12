@@ -5,6 +5,7 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { cn } from '@/utils/cn';
 import { ROUTES } from '@/constants/routes';
 import { ACCESS_CONTROL_PATHS } from '@/modules/access-control/constants/paths';
+import { EVENT_CENTER_PATHS } from '@/modules/event-center/constants/paths';
 import { timelineEvents } from '@/mock/dashboard';
 import type { TimelineStatus } from '@/types/dashboard';
 import type { StatusTone } from '@/types/common';
@@ -36,10 +37,18 @@ export function LiveEventTimeline() {
     <AppCard className="flex h-full flex-col">
       <AppCardHeader>
         <AppCardTitle>Live Event Timeline</AppCardTitle>
-        <span className="flex items-center gap-1.5 text-[11px] text-text-tertiary">
-          <span className="size-1.5 animate-pulse rounded-full bg-success-500" />
-          Live
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5 text-[11px] text-text-tertiary">
+            <span className="size-1.5 animate-pulse rounded-full bg-success-500" />
+            Live
+          </span>
+          <button
+            onClick={() => navigate(`${ROUTES.eventCenter}/${EVENT_CENTER_PATHS.timeline}`)}
+            className="text-[11px] font-medium text-primary-400 hover:text-primary-300"
+          >
+            View Timeline
+          </button>
+        </div>
       </AppCardHeader>
       <AppCardContent className="max-h-96 overflow-y-auto p-0">
         <ol className="relative m-0 list-none space-y-0 p-0">

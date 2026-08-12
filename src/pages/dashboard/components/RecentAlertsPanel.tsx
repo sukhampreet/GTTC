@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';
 import { ROUTES } from '@/constants/routes';
 import { ACCESS_CONTROL_PATHS } from '@/modules/access-control/constants/paths';
+import { EVENT_CENTER_PATHS } from '@/modules/event-center/constants/paths';
 import { dashboardAlerts } from '@/mock/dashboard';
 import type { AlertStatus } from '@/types/dashboard';
 import type { StatusTone } from '@/types/common';
@@ -29,7 +30,7 @@ export function RecentAlertsPanel() {
     <AppCard className="flex h-full flex-col">
       <AppCardHeader>
         <AppCardTitle>Recent Alerts</AppCardTitle>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" onClick={() => navigate(`${ROUTES.eventCenter}/${EVENT_CENTER_PATHS.warnings}`)}>
           View all
         </Button>
       </AppCardHeader>
