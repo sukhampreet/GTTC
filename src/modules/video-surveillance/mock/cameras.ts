@@ -1,6 +1,32 @@
 import type { CameraRecord } from '@/modules/video-surveillance/types';
+import { REAL_CAMERA_ID } from '@/config/api';
 
 export const cameraRecords: CameraRecord[] = [
+  // Real, backend-integrated CP PLUS camera (Stage 2). Kept first so it's
+  // visible in the default 9-up grid. `status` here is just the inventory
+  // default the tile starts with — LiveCameraPlayer drives the live badge.
+  {
+    id: REAL_CAMERA_ID,
+    name: 'CP PLUS Camera 01',
+    // NVR IP is intentionally not hardcoded here (see API_CONTRACT.md — the
+    // frontend must never contain the NVR address); it's backend-managed.
+    ipAddress: 'Managed by backend',
+    status: 'online',
+    recording: false,
+    aiEnabled: false,
+    resolution: '1080p',
+    location: 'Channel 1',
+    building: 'CP PLUS NVR',
+    floor: '—',
+    firmware: 'CP-UNR-108F1',
+    lastSeen: 'Live',
+    health: 'success',
+    nvr: 'CP-UNR-108F1',
+    streamQuality: 'Good',
+    group: 'CP PLUS (Live)',
+    hasPtz: false,
+    liveCameraId: REAL_CAMERA_ID,
+  },
   { id: 'CAM-001', name: 'Main Gate Entry', ipAddress: '10.10.2.11', status: 'online', recording: true, aiEnabled: true, resolution: '4K', location: 'Main Gate', building: 'Perimeter', floor: 'Ground', firmware: 'v4.2.1', lastSeen: '2 sec ago', health: 'success', nvr: 'NVR-01', streamQuality: 'Excellent', group: 'Perimeter', hasPtz: true },
   { id: 'CAM-002', name: 'Main Gate Exit', ipAddress: '10.10.2.12', status: 'online', recording: true, aiEnabled: true, resolution: '4K', location: 'Main Gate', building: 'Perimeter', floor: 'Ground', firmware: 'v4.2.1', lastSeen: '2 sec ago', health: 'success', nvr: 'NVR-01', streamQuality: 'Excellent', group: 'Perimeter', hasPtz: true },
   { id: 'CAM-003', name: 'Visitor Reception', ipAddress: '10.10.2.13', status: 'online', recording: true, aiEnabled: true, resolution: '1080p', location: 'Reception Lobby', building: 'Admin Block', floor: 'Ground', firmware: 'v4.2.1', lastSeen: '3 sec ago', health: 'success', nvr: 'NVR-01', streamQuality: 'Good', group: 'Admin Block', hasPtz: false },

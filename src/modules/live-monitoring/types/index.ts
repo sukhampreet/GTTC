@@ -13,6 +13,12 @@ export interface LiveCameraTile {
   aiEnabled: boolean;
   resolution: string;
   timestamp: string;
+  /**
+   * Present only for the real, backend-integrated CP PLUS camera (Stage 2).
+   * When set, the Camera Wall renders `LiveCameraPlayer` for this tile.
+   * Absent/undefined for every mock camera.
+   */
+  liveCameraId?: string;
 }
 
 export type CameraWallLayout = 1 | 4 | 9 | 16 | 25 | 36;

@@ -20,6 +20,13 @@ export interface CameraRecord {
   streamQuality: 'Excellent' | 'Good' | 'Fair' | 'Poor';
   group: string;
   hasPtz: boolean;
+  /**
+   * Present only for the real, backend-integrated CP PLUS camera (Stage 2).
+   * When set, Live View renders `LiveCameraPlayer` for this tile instead of
+   * the static placeholder, using this id against the FastAPI backend.
+   * Absent/undefined for every mock camera — do not set this on mock data.
+   */
+  liveCameraId?: string;
 }
 
 export type HealthState = 'healthy' | 'warning' | 'critical' | 'offline';

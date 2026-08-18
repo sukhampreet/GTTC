@@ -14,7 +14,8 @@ const GRID_CLASSES: Record<CameraWallLayout, string> = {
   36: 'grid-cols-6',
 };
 
-/** Enterprise CCTV wall — supports 1/4/9/16/25/36 tile layouts. Video is a placeholder only. */
+/** Enterprise CCTV wall — supports 1/4/9/16/25/36 tile layouts. CP PLUS Camera 01
+ * plays its real HLS feed via the backend; other tiles remain placeholders. */
 export function CameraWall() {
   const [layout, setLayout] = useState<CameraWallLayout>(9);
 

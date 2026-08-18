@@ -26,7 +26,7 @@ export function LiveViewPage() {
     <div>
       <PageHeader
         title="Live View"
-        description="Real-time monitoring grid across all connected cameras. Video area uses placeholders only — no streaming backend."
+        description="Real-time monitoring grid across all connected cameras. CP PLUS Camera 01 streams live via the backend; remaining tiles are placeholder inventory pending integration."
         actions={
           <Button variant="outline" size="sm">
             <Maximize2 className="size-3.5" />

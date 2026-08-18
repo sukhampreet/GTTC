@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Camera, Circle, Expand, Move3d, VideoOff, Wifi, WifiOff } from 'lucide-react';
 
 import { cn } from '@/utils/cn';
 import type { CameraRecord } from '@/modules/video-surveillance/types';
+import { LiveCameraPlayer } from '@/components/media/LiveCameraPlayer';
+import type { BackendStreamStatus } from '@/lib/api/cameraApi';
 
 export interface CameraTileProps {
   camera: CameraRecord;
@@ -11,18 +14,31 @@ export interface CameraTileProps {
 }
 
 export function CameraTile({ camera, dense = false, onSnapshot, onFullscreen }: CameraTileProps) {
-  const offline = camera.status === 'offline';
+  // For the real backend camera, let the live player's actual connection
+  // state drive the badge/icon instead of the static mock `status` field —
+  // "starting" must read as connecting, never "offline" (see API_CONTRACT.md).
+  const [liveStatus, setLiveStatus] = useState<BackendStreamStatus>('starting');
+  const isLive = Boolean(camera.liveCameraId);
+  const offline = isLive ? liveStatus === 'offline' || liveStatus === 'error' : camera.status === 'offline';
 
   return (
     <div className="group relative flex aspect-video flex-col justify-between overflow-hidden rounded-(--radius-md) border border-border-default bg-[repeating-linear-gradient(135deg,#0b0e14,#0b0e14_10px,#11151d_10px,#11151d_20px)]">
-      {/* Video placeholder area — no streaming implementation */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        {offline ? (
-          <VideoOff className="size-6 text-white/15" />
-        ) : (
-          <Camera className="size-6 text-white/10" />
-        )}
-      </div>
+      {isLive ? (
+        <LiveCameraPlayer
+          cameraId={camera.liveCameraId!}
+          className="absolute inset-0"
+          onStatusChange={setLiveStatus}
+        />
+      ) : (
+        // Video placeholder area — mock cameras have no streaming backend.
+        <div className="absolute inset-0 flex items-center justify-center">
+          {offline ? (
+            <VideoOff className="size-6 text-white/15" />
+          ) : (
+            <Camera className="size-6 text-white/10" />
+          )}
+        </div>
+      )}
 
       <div className="relative flex items-center justify-between gap-1 p-1.5">
         <div className="flex min-w-0 items-center gap-1">

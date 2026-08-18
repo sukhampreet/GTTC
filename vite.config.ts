@@ -11,4 +11,12 @@ export default defineConfig({
       '@': path.resolve(import.meta.dirname, './src'),
     },
   },
+  server: {
+    watch: {
+      // backend/streams is where ffmpeg writes rolling HLS segments/playlists.
+      // It sits inside this project root, so Vite's file watcher was picking
+      // up every segment write and force-reloading the page.
+      ignored: ['**/backend/streams/**'],
+    },
+  },
 })

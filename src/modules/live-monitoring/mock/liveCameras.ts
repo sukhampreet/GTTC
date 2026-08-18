@@ -1,6 +1,21 @@
 import type { LiveCameraTile } from '@/modules/live-monitoring/types';
+import { REAL_CAMERA_ID } from '@/config/api';
 
 export const liveCameras: LiveCameraTile[] = [
+  // Real, backend-integrated CP PLUS camera (Stage 2). Kept first so it's
+  // visible in the default 9-up wall layout.
+  {
+    id: REAL_CAMERA_ID,
+    name: 'CP PLUS Camera 01',
+    building: 'CP PLUS NVR',
+    location: 'Channel 1',
+    status: 'online',
+    recording: false,
+    aiEnabled: false,
+    resolution: '1080p',
+    timestamp: 'Live',
+    liveCameraId: REAL_CAMERA_ID,
+  },
   { id: 'CAM-101', name: 'Main Entrance', building: 'Block A', location: 'Ground Floor Lobby', status: 'online', recording: true, aiEnabled: true, resolution: '4K', timestamp: '00:00:12' },
   { id: 'CAM-102', name: 'Reception Desk', building: 'Block A', location: 'Ground Floor Lobby', status: 'online', recording: true, aiEnabled: true, resolution: '1080p', timestamp: '00:00:12' },
   { id: 'CAM-103', name: 'Parking Entry Gate', building: 'Block C', location: 'Basement 1', status: 'online', recording: true, aiEnabled: true, resolution: '4K', timestamp: '00:00:12' },

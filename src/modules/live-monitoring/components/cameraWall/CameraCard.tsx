@@ -1,23 +1,46 @@
+import { useState } from 'react';
 import { Maximize2, Camera, CircleDot, BrainCircuit, Aperture } from 'lucide-react';
 
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { cn } from '@/utils/cn';
+import type { DeviceOnlineStatus } from '@/types/mock';
 import type { LiveCameraTile } from '@/modules/live-monitoring/types';
 import { DEVICE_STATUS_LABEL, DEVICE_STATUS_TONE } from '@/modules/live-monitoring/components/shared/statusTone';
+import { LiveCameraPlayer } from '@/components/media/LiveCameraPlayer';
+import type { BackendStreamStatus } from '@/lib/api/cameraApi';
+
+/** Maps the richer backend stream status onto the 3-state badge every other
+ * (mock) tile already uses, so "starting" reads as a mild/degraded state
+ * rather than being misrepresented as fully online or offline. */
+function toDeviceStatus(status: BackendStreamStatus): DeviceOnlineStatus {
+  if (status === 'online') return 'online';
+  if (status === 'starting') return 'warning';
+  return 'offline';
+}
 
 export interface CameraCardProps {
   camera: LiveCameraTile;
   compact?: boolean;
 }
 
-/** Single CCTV wall tile — video placeholder only, no streaming implementation. */
+/** Single CCTV wall tile. Plays the real HLS feed for the backend-integrated
+ * camera; every other tile keeps the original video placeholder. */
 export function CameraCard({ camera, compact = false }: CameraCardProps) {
-  const isOffline = camera.status === 'offline';
+  const [liveStatus, setLiveStatus] = useState<BackendStreamStatus>('starting');
+  const isLive = Boolean(camera.liveCameraId);
+  const isOffline = isLive ? liveStatus === 'offline' || liveStatus === 'error' : camera.status === 'offline';
+  const badgeStatus: DeviceOnlineStatus = isLive ? toDeviceStatus(liveStatus) : camera.status;
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-(--radius-md) border border-border-default bg-black">
       <div className="relative flex aspect-video items-center justify-center bg-[#0b0f14]">
-        {isOffline ? (
+        {isLive ? (
+          <LiveCameraPlayer
+            cameraId={camera.liveCameraId!}
+            className="absolute inset-0"
+            onStatusChange={setLiveStatus}
+          />
+        ) : isOffline ? (
           <div className="flex flex-col items-center gap-1.5 text-text-tertiary">
             <Camera className="size-6" />
             {!compact && <span className="text-[10.5px]">Signal Lost</span>}
@@ -73,8 +96,8 @@ export function CameraCard({ camera, compact = false }: CameraCardProps) {
             <p className="truncate text-[11.5px] font-medium text-text-primary">{camera.name}</p>
             <p className="truncate text-[10px] text-text-tertiary">{camera.building} · {camera.location}</p>
           </div>
-          <StatusBadge tone={DEVICE_STATUS_TONE[camera.status]} className={cn('shrink-0 px-1.5 py-0')}>
-            {DEVICE_STATUS_LABEL[camera.status]}
+          <StatusBadge tone={DEVICE_STATUS_TONE[badgeStatus]} className={cn('shrink-0 px-1.5 py-0')}>
+            {isLive && liveStatus === 'starting' ? 'Connecting' : DEVICE_STATUS_LABEL[badgeStatus]}
           </StatusBadge>
         </div>
       )}

@@ -7,7 +7,7 @@ function continuousWeek(): ScheduleBlock[] {
 }
 
 function officeHoursWeek(): ScheduleBlock[] {
-  return WEEKDAYS.flatMap((day) => {
+  return WEEKDAYS.flatMap((day): ScheduleBlock[] => {
     if (day === 'Sat' || day === 'Sun') {
       return [{ day, startHour: 0, endHour: 24, mode: 'motion' as const }];
     }
