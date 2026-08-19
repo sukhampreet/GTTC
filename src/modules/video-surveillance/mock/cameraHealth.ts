@@ -34,21 +34,21 @@ export const healthDistribution: HealthDistributionSlice[] = [
 ];
 
 export const availabilityTrend: AvailabilityTrendPoint[] = [
-  { label: '00:00', online: 22, offline: 2 },
-  { label: '04:00', online: 21, offline: 3 },
-  { label: '08:00', online: 23, offline: 1 },
-  { label: '12:00', online: 22, offline: 2 },
-  { label: '16:00', online: 21, offline: 3 },
-  { label: '20:00', online: 22, offline: 2 },
-  { label: 'Now', online: 19, offline: 2 },
+  { label: '00:00', online: 1, offline: 7 },
+  { label: '04:00', online: 1, offline: 7 },
+  { label: '08:00', online: 1, offline: 7 },
+  { label: '12:00', online: 1, offline: 7 },
+  { label: '16:00', online: 1, offline: 7 },
+  { label: '20:00', online: 1, offline: 7 },
+  { label: 'Now', online: 1, offline: 7 },
 ];
 
 export const offlineTrend: AvailabilityTrendPoint[] = [
-  { label: 'Mon', online: 22, offline: 2 },
-  { label: 'Tue', online: 23, offline: 1 },
-  { label: 'Wed', online: 21, offline: 3 },
-  { label: 'Thu', online: 22, offline: 2 },
-  { label: 'Fri', online: 20, offline: 4 },
-  { label: 'Sat', online: 23, offline: 1 },
-  { label: 'Sun', online: 19, offline: 2 },
+  { label: 'Mon', online: 1, offline: 7 },
+  { label: 'Tue', online: 1, offline: 7 },
+  { label: 'Wed', online: 1, offline: 7 },
+  { label: 'Thu', online: 1, offline: 7 },
+  { label: 'Fri', online: 1, offline: 7 },
+  { label: 'Sat', online: 1, offline: 7 },
+  { label: 'Sun', online: 1, offline: 7 },
 ];

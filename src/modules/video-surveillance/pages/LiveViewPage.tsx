@@ -4,29 +4,31 @@ import { Maximize2 } from 'lucide-react';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Button } from '@/components/ui/Button';
 import { SearchBar } from '@/components/data/SearchBar';
-import { cameraGroups, cameraRecords } from '@/modules/video-surveillance/mock';
+import { cameraGroups } from '@/modules/video-surveillance/mock';
 import { CameraGrid } from '@/modules/video-surveillance/components/liveView/CameraGrid';
 import { GridLayoutSwitcher, type GridLayout } from '@/modules/video-surveillance/components/liveView/GridLayoutSwitcher';
+import { useCameraRegistry } from '@/modules/video-surveillance/hooks/useCameraRegistry';
 import { cn } from '@/utils/cn';
 
 export function LiveViewPage() {
-  const [layout, setLayout] = useState<GridLayout>(9);
+  const [layout, setLayout] = useState<GridLayout>(8);
   const [group, setGroup] = useState<string>('All');
   const [query, setQuery] = useState('');
+  const { cameras } = useCameraRegistry();
 
   const filtered = useMemo(() => {
-    return cameraRecords.filter((camera) => {
+    return cameras.filter((camera) => {
       const matchesGroup = group === 'All' || camera.group === group;
       const matchesQuery = !query.trim() || camera.name.toLowerCase().includes(query.trim().toLowerCase());
       return matchesGroup && matchesQuery;
     });
-  }, [group, query]);
+  }, [cameras, group, query]);
 
   return (
     <div>
       <PageHeader
         title="Live View"
-        description="Real-time monitoring grid across all connected cameras. CP PLUS Camera 01 streams live via the backend; remaining tiles are placeholder inventory pending integration."
+        description="Real-time monitoring grid across all 8 NVR channels. Channels registered via Camera Configuration → Add IP Cam stream live; unregistered channels show a placeholder."
         actions={
           <Button variant="outline" size="sm">
             <Maximize2 className="size-3.5" />

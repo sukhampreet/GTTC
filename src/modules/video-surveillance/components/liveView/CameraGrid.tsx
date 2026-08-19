@@ -17,7 +17,7 @@ export function CameraGrid({ cameras, layout }: CameraGridProps) {
     <div className={cn('grid gap-2', gridColumnsClass(layout))}>
       {slots.map((camera, index) =>
         camera ? (
-          <CameraTile key={camera.id} camera={camera} dense={layout >= 16} />
+          <CameraTile key={camera.id} camera={camera} />
         ) : (
           <div
             key={`empty-${index}`}

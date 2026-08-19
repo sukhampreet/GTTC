@@ -29,5 +29,13 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 
+# Backend: persisted camera registry contains plaintext NVR/camera
+# credentials, same sensitivity as .env - never commit it.
+backend/app/data/cameras.json
+
+# Python
+__pycache__/
+*.pyc
+
 # TypeScript
 *.tsbuildinfo

@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import cameras, health, streams
 from app.config import get_settings
+from app.services.camera_service import get_camera_service
 from app.services.stream_service import get_stream_manager
 from app.utils.logging import get_logger
 
@@ -38,10 +39,10 @@ async def _idle_reaper_loop() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    settings = get_settings()
+    cameras_registered = get_camera_service().list_cameras()
     logger.info(
-        "GTTC backend starting up (nvr=%s channel=%s stream=%s)",
-        settings.nvr_host, settings.nvr_channel, settings.redacted_rtsp_url(),
+        "GTTC backend starting up (%d camera(s) registered: %s)",
+        len(cameras_registered), ", ".join(c.id for c in cameras_registered),
     )
     reaper_task = asyncio.create_task(_idle_reaper_loop())
     try:
@@ -68,7 +69,7 @@ def create_app() -> FastAPI:
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,
         allow_credentials=True,
-        allow_methods=["GET"],
+        allow_methods=["GET", "POST", "DELETE"],
         allow_headers=["*"],
     )
 

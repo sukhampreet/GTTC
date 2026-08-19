@@ -50,7 +50,9 @@ Liveness check.
 
 ### `GET /api/cameras`
 
-List all configured cameras. Today this returns exactly **one** camera.
+List all configured cameras. Starts with **one** camera (Channel 1) but
+more can be added at runtime via `POST /api/cameras` below - those persist
+across backend restarts.
 
 ```json
 {
@@ -96,6 +98,48 @@ Detail for one camera. 404 if `camera_id` is unknown.
 ```json
 { "detail": "Unknown camera_id 'CAM-XYZ'" }
 ```
+
+### `POST /api/cameras`
+
+Register a new camera on an NVR channel (1-8), or a direct-to-camera
+connection (its own `host`, channel usually `1`). Persisted to disk, so it
+survives a backend restart.
+
+Request body:
+```json
+{
+  "name": "Front Gate",
+  "channel": 2,
+  "host": "192.168.1.245",
+  "port": 554,
+  "username": "admin",
+  "password": "Admin@123",
+  "streamType": "main"
+}
+```
+
+- `channel` must be `1`-`8`.
+- `port` defaults to `554`, `username`/`password` default to `""`,
+  `streamType` defaults to `"main"` (the other option is `"sub"`).
+- `username`/`password` are write-only: used to build the camera's RTSP URL
+  and stored server-side, never echoed back in this or any other response.
+
+Success: `201` with the same shape as `GET /api/cameras/{camera_id}`
+(`CameraDetail` - no credentials).
+
+Errors:
+- `409` if that channel is already registered to another camera:
+  `{ "detail": "Channel 2 is already registered (camera_id=CAM-CPPLUS-002)" }`
+- `422` if the request body itself is invalid (e.g. `channel` outside 1-8,
+  missing `name`/`host`).
+
+### `DELETE /api/cameras/{camera_id}`
+
+Stop any running stream for this camera (its FFmpeg process, if one is
+active) and remove it from the registry.
+
+- `204` on success, empty body.
+- `404` if `camera_id` is unknown.
 
 ### `GET /api/cameras/{camera_id}/status`
 
@@ -199,14 +243,15 @@ All error responses follow FastAPI's default shape:
 { "detail": "human readable message" }
 ```
 
-Status codes used: `404` (unknown camera or resource), `400` (invalid
-stream filename requested), `503` (stream not ready yet).
+Status codes used: `404` (unknown camera or resource), `409` (channel
+already registered), `422` (invalid request body), `400` (invalid stream
+filename requested), `503` (stream not ready yet).
 
 ## What this backend does NOT do (yet)
 
-- No authentication/authorization.
+- No authentication/authorization — anyone who can reach the backend can
+  add/remove cameras via the endpoints above.
 - No websocket/push status updates — status is poll-based.
-- No support for camera channels 2–8 (only Channel 1 / `CAM-CPPLUS-001`
-  is wired up; see `CLAUDE_2_HANDOFF.md` for how the frontend should treat
-  the other channels for now — likely: hide them / show "not connected").
+- No camera *editing* — to change a registered camera's connection details,
+  `DELETE` it and `POST` it again.
 - No recording/playback of the real feed (only live HLS).

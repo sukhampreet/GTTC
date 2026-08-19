@@ -46,6 +46,13 @@ class Settings(BaseSettings):
     nvr_stream_type: int = Field(default=0, alias="NVR_STREAM_TYPE")  # 0 = main, 1 = sub
     nvr_model: str = Field(default="CP-UNR-108F1", alias="NVR_MODEL")
 
+    # --- Camera registry -----------------------------------------------
+    # JSON file the camera registry is persisted to, so cameras added at
+    # runtime (POST /api/cameras) survive a backend restart. The NVR_* vars
+    # above are only used to seed Channel 1 the first time this file doesn't
+    # exist yet - see app/services/camera_service.py.
+    camera_registry_path: str = Field(default="app/data/cameras.json", alias="CAMERA_REGISTRY_PATH")
+
     # --- FFmpeg / HLS --------------------------------------------------------
     ffmpeg_path: str = Field(default="ffmpeg", alias="FFMPEG_PATH")
     # x264 preset used for the live transcode. "veryfast" balances CPU cost
@@ -74,20 +81,12 @@ class Settings(BaseSettings):
             p = BACKEND_ROOT / p
         return p
 
-    def rtsp_url(self) -> str:
-        """Build the full authenticated RTSP URL. Never log or return this as-is."""
-        return (
-            f"rtsp://{self.nvr_username}:{self.nvr_password}@"
-            f"{self.nvr_host}:{self.nvr_rtsp_port}/cam/realmonitor"
-            f"?channel={self.nvr_channel}&subtype={self.nvr_stream_type}"
-        )
-
-    def redacted_rtsp_url(self) -> str:
-        """Safe-to-log version of the RTSP URL with credentials masked."""
-        return (
-            f"rtsp://***:***@{self.nvr_host}:{self.nvr_rtsp_port}/cam/realmonitor"
-            f"?channel={self.nvr_channel}&subtype={self.nvr_stream_type}"
-        )
+    @property
+    def camera_registry_file(self) -> Path:
+        p = Path(self.camera_registry_path)
+        if not p.is_absolute():
+            p = BACKEND_ROOT / p
+        return p
 
 
 @lru_cache

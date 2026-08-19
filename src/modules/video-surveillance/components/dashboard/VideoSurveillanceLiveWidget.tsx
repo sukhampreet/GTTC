@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Camera, CameraOff, Circle, Video, VideoOff } from 'lucide-react';
+import { ArrowRight, Camera } from 'lucide-react';
 
 import { AppCard, AppCardContent, AppCardHeader, AppCardTitle } from '@/components/ui/AppCard';
 import { Button } from '@/components/ui/Button';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { cn } from '@/utils/cn';
 import { ROUTES } from '@/constants/routes';
-import { cameraRecords } from '@/modules/video-surveillance/mock';
 import { VIDEO_SURVEILLANCE_PATHS } from '@/modules/video-surveillance/constants/paths';
 import { DEVICE_STATUS_LABEL, DEVICE_STATUS_TONE } from '@/modules/video-surveillance/components/shared/statusTone';
+import { CameraGrid } from '@/modules/video-surveillance/components/liveView/CameraGrid';
+import { useCameraRegistry } from '@/modules/video-surveillance/hooks/useCameraRegistry';
 
 /**
  * Live snapshot of the Video Surveillance module's camera feed, embedded
@@ -19,10 +20,11 @@ import { DEVICE_STATUS_LABEL, DEVICE_STATUS_TONE } from '@/modules/video-surveil
  */
 export function VideoSurveillanceLiveWidget() {
   const navigate = useNavigate();
+  const { cameras } = useCameraRegistry();
 
-  const onlineCameras = cameraRecords.filter((c) => c.status === 'online').length;
-  const recordingCameras = cameraRecords.filter((c) => c.recording).length;
-  const preview = cameraRecords.slice(0, 6);
+  const onlineCameras = cameras.filter((c) => c.status === 'online').length;
+  const recordingCameras = cameras.filter((c) => c.recording).length;
+  const preview = cameras.slice(0, 3);
 
   function goToLiveView() {
     navigate(`${ROUTES.videoSurveillance}/${VIDEO_SURVEILLANCE_PATHS.liveView}`);
@@ -48,7 +50,7 @@ export function VideoSurveillanceLiveWidget() {
         <div className="grid grid-cols-3 gap-2">
           <div className="rounded-(--radius-md) border border-border-default bg-surface-raised px-3 py-2 text-center">
             <p className="text-[10.5px] uppercase tracking-wide text-text-tertiary">Total Cameras</p>
-            <p className="mt-0.5 text-base font-semibold tabular-nums text-text-primary">{cameraRecords.length}</p>
+            <p className="mt-0.5 text-base font-semibold tabular-nums text-text-primary">{cameras.length}</p>
           </div>
           <div className="rounded-(--radius-md) border border-success-500/30 bg-success-bg px-3 py-2 text-center">
             <p className="text-[10.5px] uppercase tracking-wide text-success-400">Online</p>
@@ -60,37 +62,12 @@ export function VideoSurveillanceLiveWidget() {
           </div>
         </div>
 
-        <div className="grid flex-1 grid-cols-3 gap-2">
-          {preview.map((camera) => (
-            <button
-              key={camera.id}
-              type="button"
-              onClick={goToLiveView}
-              className="group relative flex aspect-video flex-col justify-between overflow-hidden rounded-(--radius-md) border border-border-default bg-black/80 p-1.5 text-left transition-colors hover:border-primary-500/60"
-            >
-              <div className="flex items-center justify-between">
-                {camera.status === 'online' ? (
-                  <Video className="size-3 text-white/70" />
-                ) : (
-                  <VideoOff className="size-3 text-white/40" />
-                )}
-                {camera.recording && camera.status === 'online' && (
-                  <span className="flex items-center gap-1 rounded-sm bg-black/50 px-1 py-0.5 text-[9px] font-medium text-danger-400">
-                    <Circle className="size-1.5 fill-current" />
-                    REC
-                  </span>
-                )}
-              </div>
-              {camera.status !== 'online' && (
-                <CameraOff className="absolute inset-0 m-auto size-4 text-white/20" />
-              )}
-              <p className="truncate text-[9.5px] font-medium text-white/80">{camera.name}</p>
-            </button>
-          ))}
+        <div className="max-h-56 overflow-y-auto">
+          <CameraGrid cameras={cameras} layout={8} />
         </div>
 
         <ul className="divide-y divide-border-default overflow-hidden rounded-(--radius-md) border border-border-default">
-          {preview.slice(0, 3).map((camera) => (
+          {preview.map((camera) => (
             <li key={camera.id} className="flex items-center justify-between gap-3 px-3 py-2">
               <div className="flex min-w-0 items-center gap-2">
                 <Camera className={cn('size-3.5 shrink-0', camera.status === 'online' ? 'text-text-tertiary' : 'text-danger-400')} />

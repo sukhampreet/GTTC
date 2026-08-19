@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 
-export const GRID_LAYOUTS = [1, 4, 9, 16, 25, 36] as const;
+export const GRID_LAYOUTS = [1, 4, 8] as const;
 export type GridLayout = (typeof GRID_LAYOUTS)[number];
 
 export interface GridLayoutSwitcherProps {
@@ -37,13 +37,7 @@ export function gridColumnsClass(layout: GridLayout): string {
       return 'grid-cols-1';
     case 4:
       return 'grid-cols-2';
-    case 9:
-      return 'grid-cols-3';
-    case 16:
-      return 'grid-cols-4';
-    case 25:
-      return 'grid-cols-5';
-    case 36:
-      return 'grid-cols-6';
+    case 8:
+      return 'grid-cols-2 sm:grid-cols-4';
   }
 }

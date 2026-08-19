@@ -1,8 +1,8 @@
 """
 Logging setup for the GTTC backend.
 
-IMPORTANT: never pass raw RTSP URLs (which embed NVR credentials) to these
-loggers. Use Settings.redacted_rtsp_url() for any RTSP-related log line.
+IMPORTANT: never pass raw RTSP URLs (which embed camera credentials) to
+these loggers. Use Camera.redacted_rtsp_url() for any RTSP-related log line.
 """
 
 from __future__ import annotations

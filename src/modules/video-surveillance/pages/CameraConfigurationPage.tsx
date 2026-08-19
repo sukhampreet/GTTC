@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { PageHeader } from '@/components/ui/PageHeader';
 import { cn } from '@/utils/cn';
-import { cameraRecords } from '@/modules/video-surveillance/mock';
 import { ConfigurationTabs } from '@/modules/video-surveillance/components/configuration/ConfigurationTabs';
+import { useCameraRegistry } from '@/modules/video-surveillance/hooks/useCameraRegistry';
 
 export function CameraConfigurationPage() {
-  const [cameraId, setCameraId] = useState(cameraRecords[0]?.id ?? '');
+  const { cameras } = useCameraRegistry();
+  const [cameraId, setCameraId] = useState(cameras[0]?.id ?? '');
+
+  // cameras[0]'s id can change (e.g. right after Channel 1 is
+  // added/removed on first load); keep the selection valid.
+  useEffect(() => {
+    if (cameras.length > 0 && !cameras.some((c) => c.id === cameraId)) {
+      setCameraId(cameras[0].id);
+    }
+  }, [cameras, cameraId]);
 
   return (
     <div>
@@ -19,7 +28,7 @@ export function CameraConfigurationPage() {
         <div className="h-fit rounded-(--radius-lg) border border-border-default bg-surface p-2">
           <p className="px-2 pb-1.5 text-[11px] font-medium uppercase tracking-wide text-text-tertiary">Cameras</p>
           <ul className="max-h-[560px] space-y-0.5 overflow-y-auto">
-            {cameraRecords.map((c) => (
+            {cameras.map((c) => (
               <li key={c.id}>
                 <button
                   onClick={() => setCameraId(c.id)}

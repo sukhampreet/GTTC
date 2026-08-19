@@ -36,6 +36,17 @@ export interface BackendCameraStream {
   status: BackendStreamStatus;
 }
 
+/** Body for POST /api/cameras. Mirrors backend CameraCreateRequest exactly. */
+export interface CameraCreatePayload {
+  name: string;
+  channel: number;
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  streamType: 'main' | 'sub';
+}
+
 export class CameraApiError extends Error {
   status?: number;
   constructor(message: string, status?: number) {
@@ -45,10 +56,10 @@ export class CameraApiError extends Error {
   }
 }
 
-async function request<T>(path: string): Promise<T> {
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`);
+    response = await fetch(`${API_BASE_URL}${path}`, init);
   } catch {
     throw new CameraApiError('Unable to reach the backend. Is it running?');
   }
@@ -64,11 +75,29 @@ async function request<T>(path: string): Promise<T> {
     throw new CameraApiError(detail, response.status);
   }
 
+  // DELETE returns 204 No Content — no body to parse.
+  if (response.status === 204) {
+    return undefined as T;
+  }
   return (await response.json()) as T;
 }
 
-export function getCameras(): Promise<{ cameras: BackendCameraSummary[] }> {
+export function listCameras(): Promise<{ cameras: BackendCameraSummary[] }> {
   return request('/api/cameras');
+}
+
+/** Registers a new camera on an NVR channel (1-8) at runtime. 409 if that channel is already taken. */
+export function addCamera(payload: CameraCreatePayload): Promise<BackendCameraDetail> {
+  return request('/api/cameras', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Stops the camera's running stream (backend-side) and removes it from the registry. */
+export function removeCamera(cameraId: string): Promise<void> {
+  return request(`/api/cameras/${encodeURIComponent(cameraId)}`, { method: 'DELETE' });
 }
 
 export function getCamera(cameraId: string): Promise<BackendCameraDetail> {

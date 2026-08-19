@@ -134,13 +134,13 @@ class StreamManager:
             logger.error(handle.error)
             return handle
 
-        rtsp_url = settings.rtsp_url()
+        rtsp_url = camera.rtsp_url()
         command = ffmpeg_service.build_hls_command(rtsp_url, output_dir, settings)
         log_file = output_dir / "ffmpeg.log"
 
         logger.info(
             "Starting FFmpeg for camera=%s source=%s",
-            camera.id, settings.redacted_rtsp_url(),
+            camera.id, camera.redacted_rtsp_url(),
         )
         try:
             process = ffmpeg_service.start_process(command, log_file)

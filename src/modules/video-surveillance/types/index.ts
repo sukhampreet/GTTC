@@ -175,15 +175,17 @@ export interface ScheduleProfile {
   blocks: ScheduleBlock[];
 }
 
+/** Matches the CP PLUS NVR's actual top-level on-screen menu structure. */
 export type CameraConfigTab =
-  | 'general'
+  | 'camera'
   | 'network'
-  | 'video'
-  | 'audio'
-  | 'ai'
-  | 'recording'
+  | 'event'
   | 'storage'
-  | 'maintenance';
+  | 'display'
+  | 'account'
+  | 'system'
+  | 'info'
+  | 'security';
 
 export interface AnalyticsSummary {
   id: string;
